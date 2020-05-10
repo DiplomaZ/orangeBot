@@ -76,6 +76,10 @@ class User {
     public setName(name: string): void {
         this.name = name;
     }
+
+    public checkIn(): void {
+        this.balance = this.balance + 200;
+    }
 }
 
 export default User;
