@@ -56,4 +56,18 @@ bot.on('message', (msg) => {
     const command: string | undefined = getCommand(msg);
 
     if (!command) return;
+    msg.channel.send(`command entered: ${command}`);
+
+    if (command === 'profile') {
+        // ! TODO: refactor into helper method
+        const profile: TempUser | undefined = findProfile(msg.author);
+        if (!profile) {
+            // not undefined => true
+            const user = createUser(msg.author);
+            msg.channel.sendCode(
+                '',
+                `User: ${user.name}\nAccount Balance: ${user.balance}`,
+            );
+            return;
+        }
 });
