@@ -10,9 +10,13 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (msg) => {
-    if (msg.content === "What's your name?") {
-        msg.reply(
-            "I don't really have an official name yet, but one of my creators really likes the color orange.",
+    const getCommand = (message: Message): string | void => {
+        // if first letter isn't prefix -> ! ignore or if message from bot, ignore
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+        const command = message.content.split(' ')[0].replace(prefix, '');
+        return command;
+    };
         );
         // msg.channel.send("pong");
     } else if (msg.content.startsWith('!kick')) {
