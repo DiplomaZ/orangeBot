@@ -72,6 +72,10 @@ class User {
     public getStats(): UserStats {
         return this.stats;
     }
+
+    public setName(name: string): void {
+        this.name = name;
+    }
 }
 
 export default User;
