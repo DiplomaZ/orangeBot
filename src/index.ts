@@ -18,6 +18,14 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (msg) => {
+    const getCommand = (message: Message): string | undefined => {
+        // if first letter isn't prefix -> ! ignore or if message from bot, ignore
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+        const command = message.content.split(' ')[0].replace(prefix, '');
+        return command;
+    };
+
     const createUser = (user: User): TempUser => {
         // create user
         // ! TODO: refactor into class
