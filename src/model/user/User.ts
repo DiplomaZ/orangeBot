@@ -46,6 +46,19 @@ class User {
             damage = 10,
             armor = 10,
         } = config;
+
+        const stats = {
+            hitPoints,
+            level,
+            strength,
+            agility,
+            intelligence,
+            damage,
+            armor,
+        };
+        this.name = name;
+        this.balance = balance;
+        this.stats = stats;
     }
 }
 
