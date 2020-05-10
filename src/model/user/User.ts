@@ -60,6 +60,18 @@ class User {
         this.balance = balance;
         this.stats = stats;
     }
+
+    public getName(): string {
+        return this.name;
+    }
+
+    public getBalance(): number {
+        return this.balance;
+    }
+
+    public getStats(): UserStats {
+        return this.stats;
+    }
 }
 
 export default User;
