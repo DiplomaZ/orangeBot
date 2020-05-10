@@ -70,4 +70,5 @@ bot.on('message', (msg) => {
             );
             return;
         }
+    }
 });
