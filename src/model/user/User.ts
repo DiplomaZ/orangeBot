@@ -80,6 +80,8 @@ class User {
     public checkIn(): void {
         this.balance = this.balance + 200;
     }
+
+    // ! TODO: figure out more methods needed
 }
 
 export default User;
