@@ -17,6 +17,16 @@ interface UserStats extends BasicStats, DamageStats, ArmorStats {
     level: number;
 }
 
+interface UserConfig {
+    name: string;
+    balance: number;
+    hitPoints: number;
+    level: number;
+    strength: number;
+    agility: number;
+    intelligence: number;
+    damage: number;
+    armor: number;
 }
 
 class User {
@@ -24,6 +34,8 @@ class User {
     private balance: number;
     private stats: UserStats;
 
+    constructor(config: UserConfig) {
+    }
 }
 
 export default User;
