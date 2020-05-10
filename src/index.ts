@@ -46,9 +46,12 @@ bot.on('message', (msg) => {
         return newUser;
     };
 
-    const getCommand = (message: Message): string | void => {
-        // if first letter isn't prefix -> ! ignore or if message from bot, ignore
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
+    const findProfile = (user: User): TempUser | undefined => {
+        const profile: TempUser | undefined = users.find(
+            (u) => u.id === user.id,
+        );
+        return profile;
+    };
 
         const command = message.content.split(' ')[0].replace(prefix, '');
         return command;
