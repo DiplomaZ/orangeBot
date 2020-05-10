@@ -53,31 +53,7 @@ bot.on('message', (msg) => {
         return profile;
     };
 
-        const command = message.content.split(' ')[0].replace(prefix, '');
-        return command;
-    };
-    //     );
-    //     // msg.channel.send("pong");
-    // } else if (msg.content.startsWith('!kick')) {
-    //     if (msg.mentions.users.size) {
-    //         const taggedUser = msg.mentions.users.first();
-    //         msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
-    //     } else {
-    //         msg.reply('Please tag a valid user!');
-    //     }
-    // }
-    // get args from msg
-    // if (msg.content === "What's your name?") {
-    //     msg.reply(
-    //         "I don't really have an official name yet, but one of my creators really likes the color orange.",
-    //     );
-    //     // msg.channel.send("pong");
-    // } else if (msg.content.startsWith('!kick')) {
-    //     if (msg.mentions.users.size) {
-    //         const taggedUser = msg.mentions.users.first();
-    //         msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
-    //     } else {
-    //         msg.reply('Please tag a valid user!');
-    //     }
-    // }
+    const command: string | undefined = getCommand(msg);
+
+    if (!command) return;
 });
