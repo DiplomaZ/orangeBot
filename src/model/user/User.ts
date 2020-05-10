@@ -35,6 +35,17 @@ class User {
     private stats: UserStats;
 
     constructor(config: UserConfig) {
+        const {
+            name = '',
+            balance = 0,
+            hitPoints = 0,
+            level = 1,
+            strength = 1,
+            agility = 1,
+            intelligence = 1,
+            damage = 10,
+            armor = 10,
+        } = config;
     }
 }
 
