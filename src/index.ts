@@ -5,6 +5,14 @@ const bot = new Discord.Client();
 
 bot.login(token);
 
+const users = [];
+
+interface TempUser {
+    id: string;
+    balance: number;
+    name: string;
+}
+
 bot.on('ready', () => {
     console.info(`Logged in as ${bot.user.tag}!`);
 });
