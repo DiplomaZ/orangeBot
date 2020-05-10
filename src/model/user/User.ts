@@ -16,3 +16,14 @@ interface ArmorStats {
 interface UserStats extends BasicStats, DamageStats, ArmorStats {
     level: number;
 }
+
+}
+
+class User {
+    private name: string;
+    private balance: number;
+    private stats: UserStats;
+
+}
+
+export default User;
