@@ -1,6 +1,6 @@
 require('dotenv').config();
 import { token, prefix } from '../discord.config.json';
-import Discord from 'discord.js';
+import Discord, { Message } from 'discord.js';
 const bot = new Discord.Client();
 
 bot.login(token);
