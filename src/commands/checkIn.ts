@@ -23,6 +23,17 @@ module.exports = {
                 message.channel.send(profile.greeting());
                 return;
             }
+            console.log(secondsElapsed);
+
+            const dayInMinutes = 60 * 60 * 24;
+            const differenceInMinutes = dayInMinutes - secondsElapsed / 60;
+
+            message.channel.send(
+                `You cannot check in for another ${differenceInMinutes.toFixed(
+                    0
+                )} minutes`
+            );
+            return;
         }
     },
 }
