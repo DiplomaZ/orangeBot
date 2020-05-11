@@ -12,6 +12,10 @@ module.exports = {
     name: 'check-in',
     description: '',
     execute(message: Message, args): void {
+        const profile: User | undefined = findProfile(message);
+
+        if (profile) {
         message.channel.send('Hello World')
+        }
     },
 }
