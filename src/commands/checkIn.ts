@@ -15,7 +15,14 @@ module.exports = {
         const profile: User | undefined = findProfile(message);
 
         if (profile) {
-        message.channel.send('Hello World')
+            const secondsElapsed: number =
+                (Date.now() - profile.getLastCheckin()) / 1000;
+
+            if (secondsElapsed > 24 * 60 * 60) {
+                profile.checkIn();
+                message.channel.send(profile.greeting());
+                return;
+            }
         }
     },
 }
