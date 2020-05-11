@@ -12,7 +12,8 @@
     "license": "ISC",
     "dependencies": {
         "discord.js": "^11.5.1",
-        "dotenv": "^8.2.0"
+        "dotenv": "^8.2.0",
+        "moment": "^2.25.3"
     },
     "devDependencies": {
         "@types/node": "^13.13.5",
