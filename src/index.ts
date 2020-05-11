@@ -1,7 +1,5 @@
-import 'dotenv/config';
-import { token } from '../discord.config.json';
-import { onMessageHandler } from './core';
-import Discord from 'discord.js';
+import fs from 'fs'
+import path from 'path'
 
 bot.commands = new Discord.Collection()
 const readInCommands = (): void => {
