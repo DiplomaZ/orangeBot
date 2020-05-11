@@ -3,6 +3,8 @@ import { token } from '../discord.config.json';
 import { onMessageHandler } from './core';
 import Discord from 'discord.js';
 
+bot.commands = new Discord.Collection()
+const readInCommands = (): void => {
     fs.readdirSync(path.join(__dirname, 'commands'))
         .filter(file => file.endsWith('.ts'))
         .forEach(async fileName => {
@@ -11,6 +13,8 @@ import Discord from 'discord.js';
             // @ts-ignore
             bot.commands.set(command.name, command)
         })
+}
+readInCommands()
 
 bot.login(token);
 
