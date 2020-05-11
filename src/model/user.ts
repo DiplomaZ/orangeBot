@@ -90,7 +90,10 @@ class User {
         this.balance = this.balance + 200;
     }
 
-        this.balance = this.balance + 200
+    public toString(): string {
+        return `Hello, ${this.name}, today is ${moment().format(
+            'MM/DD/YYYY'
+        )}. Your current balance is ${this.balance}. `;
     }
 
     // ! TODO: figure out more methods needed
