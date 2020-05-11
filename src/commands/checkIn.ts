@@ -1,5 +1,8 @@
-import { Message } from 'discord.js'
-
+import { Message, User as DiscordUser } from 'discord.js';
+import User from '../model/user';
+import { findProfile } from '../util';
+import database from '../data/database';
+import { type } from 'os';
 // export default (message: Message): string | void => {
 //     // if first letter isn't prefix -> ! ignore or if message from bot, ignore
 //     if (!message.content.startsWith(prefix) || message.author.bot) return
@@ -7,6 +10,13 @@ import { Message } from 'discord.js'
 //     const command = message.content.split(' ')[0].replace(prefix, '')
 //     return command
 // }
+
+//Use message contents to infer user that sent message Message.author
+//extract ID and find associated profile (findProfile)
+//
+//modify values (money, currency)
+//push new object to database
+//
 
 module.exports = {
     name: 'check-in',
@@ -35,5 +45,16 @@ module.exports = {
             );
             return;
         }
+        const { username, id } = message.author;
+        const user = new User({ id, name: username });
+
+        // "save" to database
+        database.push(user);
+
+        message.channel.send(
+            `Profile not found, created profile for user ${user.getName()}`
+        );
+        user.checkIn();
+        message.channel.send(user.greeting());
     },
-}
+};
