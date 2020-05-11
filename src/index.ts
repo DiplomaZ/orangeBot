@@ -23,3 +23,5 @@ bot.on('ready', () => {
 });
 
 bot.on('message', onMessageHandler);
+
+bot.on('message', onMessageHandler(bot))
