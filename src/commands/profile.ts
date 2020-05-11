@@ -17,12 +17,12 @@ module.exports = {
             // "save" to database
             database.push(user);
             console.log('not hello world');
-            message.channel.send(user.toString());
+            message.channel.send(user.greeting());
             return;
         }
 
         // there was a profile
         console.log('hello world');
-        message.channel.send(profile.toString());
+        message.channel.send(profile.greeting());
     },
 };
