@@ -36,6 +36,8 @@ class User {
     private name: string;
     private balance: number;
     private stats: UserStats;
+    private lastCheckinTime: number;
+    //chicken time
 
     constructor(config: UserConfig) {
         const {
@@ -88,9 +90,14 @@ class User {
 
     public checkIn(): void {
         this.balance = this.balance + 200;
+        this.lastCheckinTime = Date.now();
     }
 
-    public toString(): string {
+    public getLastCheckin(): number {
+        return this.lastCheckinTime;
+    }
+
+    public greeting(): string {
         return `Hello, ${this.name}, today is ${moment().format(
             'MM/DD/YYYY'
         )}. Your current balance is ${this.balance}. `;
