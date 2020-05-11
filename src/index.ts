@@ -3,7 +3,14 @@ import { token } from '../discord.config.json';
 import { onMessageHandler } from './core';
 import Discord from 'discord.js';
 
-const bot = new Discord.Client();
+    fs.readdirSync(path.join(__dirname, 'commands'))
+        .filter(file => file.endsWith('.ts'))
+        .forEach(async fileName => {
+            const command = await import(`./commands/${fileName}`)
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            bot.commands.set(command.name, command)
+        })
 
 bot.login(token);
 
