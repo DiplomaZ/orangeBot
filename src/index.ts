@@ -7,6 +7,7 @@ import path from 'path'
 
 const bot = new Discord.Client()
 
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 bot.commands = new Discord.Collection()
@@ -23,6 +24,14 @@ const readInCommands = (): void => {
 readInCommands()
 
 bot.login(token)
+
+const users = [];
+
+interface TempUser {
+    id: string;
+    balance: number;
+    name: string;
+}
 
 bot.on('ready', () => {
     console.info(`Logged in as ${bot.user.tag}!`)
