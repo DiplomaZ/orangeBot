@@ -7,8 +7,7 @@ const onMessageHandler = (client: Client) => (message: Message): void => {
     const args = message.content.slice(prefix.length).split(/ +/)
     const command = args.shift().toLowerCase()
 
-        const command = message.content.split(' ')[0].replace(prefix, '');
-        return command;
-    };
-};
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    if (!client.commands.has(command)) return
 
