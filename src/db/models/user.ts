@@ -26,6 +26,12 @@ class User {
     static get database(): Knex.QueryBuilder {
         return db('users');
     }
+
+    static find(): Promise<UserConfig[]> {
+        // returns all users
+        return User.database;
+    }
+
     static add(
         discordID: DiscordID
     ): Promise<{ discordID: string; [key: string]: string }[]> {
