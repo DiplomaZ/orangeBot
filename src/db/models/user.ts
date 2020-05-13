@@ -1,3 +1,8 @@
+import db from '../database';
+import Knex from 'knex';
+import { Message } from 'discord.js';
+import moment from 'moment';
+
 export interface UserConfig {
     id?: number;
     discordID: string;
