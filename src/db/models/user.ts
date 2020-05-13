@@ -81,6 +81,44 @@ class User {
 
         return User.database.insert(user, ['discordID']);
     }
+
+    public checkIn(): void {
+        // get now
+        const now = moment();
+        const last = moment(Number.parseInt(this.lastCheckIn));
+        // 12:00 april 1st, next checkin 12:00 april 2
+        if (last.diff(now, 'h') >= 24) {
+            this.balance += 200;
+            this.lastCheckIn = Date.now().toString();
+            this.update().then(() => {
+                return;
+            });
+            return;
+        }
+
+        throw Error(
+            `Unable to check in at this time. Please try again at ${last
+                .add(24, 'h')
+                .format('HH:mm on MMM Do')}`
+        );
+    }
+
+    public update(): Promise<UserConfig> {
+        /*
+         * how to use:
+         * user[property] = value // not really
+         * user.update() // no returns as user has already been updated
+         */
+
+        return User.database
+            .update({ ...this }, '*')
+            .then(results => {
+                return results[0];
+            })
+            .catch(e => {
+                throw e;
+            });
+    }
     }
 
 export default User;
