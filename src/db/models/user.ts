@@ -98,7 +98,7 @@ class User {
         const now = moment();
         const last = moment(Number.parseInt(this.lastCheckIn));
         // 12:00 april 1st, next checkin 12:00 april 2
-        if (last.diff(now, 'h') >= 24) {
+        if (now.diff(last, 'h') >= 24) {
             this.balance += 200;
             this.lastCheckIn = Date.now().toString();
             this.update().then(() => {
