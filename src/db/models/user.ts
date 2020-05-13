@@ -44,6 +44,11 @@ class User {
             return User.database.where({ discordID: value.value }).select('*');
         }
     }
+
+    static findById(id: number): Promise<UserConfig> {
+        return User.database.where({ id }).select('*');
+    }
+
     static add(
         discordID: DiscordID
     ): Promise<{ discordID: string; [key: string]: string }[]> {
