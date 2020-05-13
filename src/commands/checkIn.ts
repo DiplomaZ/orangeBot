@@ -1,8 +1,6 @@
 import { Message, User as DiscordUser } from 'discord.js';
-import User from '../model/user';
-import { findProfile } from '../util';
-import database from '../data/database';
-import { type } from 'os';
+import User from '../db/models/user';
+import moment from 'moment';
 // export default (message: Message): string | void => {
 //     // if first letter isn't prefix -> ! ignore or if message from bot, ignore
 //     if (!message.content.startsWith(prefix) || message.author.bot) return
@@ -22,39 +20,21 @@ module.exports = {
     name: 'check-in',
     description: '',
     execute(message: Message, args): void {
-        const profile: User | undefined = findProfile(message);
-
-        if (profile) {
-            const secondsElapsed: number =
-                (Date.now() - profile.getLastCheckin()) / 1000;
-
-            if (secondsElapsed > 24 * 60 * 60) {
-                profile.checkIn();
-                message.channel.send(profile.greeting());
-                return;
-            }
-            console.log(secondsElapsed);
-
-            const dayInMinutes = 60 * 60 * 24;
-            const differenceInMinutes = dayInMinutes - secondsElapsed / 60;
-
-            message.channel.send(
-                `You cannot check in for another ${differenceInMinutes.toFixed(
-                    0
-                )} minutes`
-            );
-            return;
-        }
         const { username, id } = message.author;
-        const user = new User({ id, name: username });
-
-        // "save" to database
-        database.push(user);
-
-        message.channel.send(
-            `Profile not found, created profile for user ${user.getName()}`
-        );
-        user.checkIn();
-        message.channel.send(user.greeting());
+        User.load({ type: 'discord-id', value: id }).then(user => {
+            try {
+                user.checkIn();
+                const date = moment(
+                    new Date(Number.parseInt(user.lastCheckIn))
+                );
+                message.channel.send(
+                    `Thanks for checking in ${message.guild.members.get(
+                        user.discordID
+                    )}. Last check in is ${date.format('MMMM Do - HH:mm')}`
+                );
+            } catch (e) {
+                message.channel.send(e.message);
+            }
+        });
     },
 };
