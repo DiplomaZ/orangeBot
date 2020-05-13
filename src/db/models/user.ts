@@ -32,6 +32,18 @@ class User {
         return User.database;
     }
 
+    static findByDiscord(
+        value: Message | DiscordID
+    ): Promise<UserConfig[] | []> {
+        if (value instanceof Message) {
+            const id = value.author.id;
+            return User.database.where({ discordID: id }).first();
+        }
+
+        if (value.type === 'discord-id') {
+            return User.database.where({ discordID: value.value }).select('*');
+        }
+    }
     static add(
         discordID: DiscordID
     ): Promise<{ discordID: string; [key: string]: string }[]> {
