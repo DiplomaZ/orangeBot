@@ -23,6 +23,22 @@ class User {
         // there's always going to be a config.id once load is up
         this.id = config.id;
     }
+
+    public static async load(discordID: DiscordID): Promise<User> {
+        const foundResults = await this.findByDiscord(discordID);
+        if (foundResults.length > 0) {
+            return new User(foundResults[0]);
+        }
+
+        const results = await User.add(discordID);
+        const discordConfig: DiscordID = {
+            value: results[0].discordID,
+            type: 'discord-id',
+        };
+
+        return User.load(discordConfig);
+    }
+
     static get database(): Knex.QueryBuilder {
         return db('users');
     }
