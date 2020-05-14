@@ -36,7 +36,6 @@ class User {
     constructor(config: UserConfig) {
         this.discordID = config.discordID;
         this.balance = config.balance >= 0 ? config.balance : 0;
-        this.experience = config.experience;
         this.lastCheckIn = config.lastCheckIn;
         this.experience = config.experience;
 
@@ -95,6 +94,34 @@ class User {
         };
 
         return User.database.insert(user, ['discordID']);
+    }
+
+    public get level(): number[] {
+        let level = 1;
+        let expToNextLevel = 500;
+        let totalExperienceLeft = this.experience;
+
+        while (totalExperienceLeft > expToNextLevel) {
+            // each iteration increase level
+            level = level + 1;
+
+            // subtract exp to exit loop
+            totalExperienceLeft =
+                totalExperienceLeft - Math.floor(expToNextLevel);
+
+            // increase required exp
+            // 10% of base each level
+            // after 10 levels, base + +2%
+            // after 25 levels, base + +3% going forward for total of 15.566%
+            expToNextLevel =
+                level <= 10
+                    ? expToNextLevel * 1.1
+                    : level > 10 && level <= 20
+                    ? expToNextLevel * 1.1 * 1.02
+                    : expToNextLevel * 1.1 * 1.02 * 1.03;
+        }
+
+        return [level, totalExperienceLeft, Math.floor(expToNextLevel)];
     }
 
     public checkIn(): void {
