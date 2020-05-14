@@ -120,6 +120,11 @@ class User {
         );
     }
 
+    public updateExperience(exp: number): Promise<User> {
+        this.experience = this.experience + exp;
+        return this.update().then(user => user);
+    }
+
     private update(): Promise<User> {
         /*
          * how to use:
