@@ -8,6 +8,7 @@ export interface UserConfig {
     discordID: string;
     balance?: number;
     lastCheckIn: string | undefined;
+    experience: number;
 }
 
 interface DiscordID {
@@ -30,11 +31,14 @@ class User {
     discordID: string;
     balance: number;
     lastCheckIn: string | undefined;
+    experience: number;
     // oldState: UserStateHistory; experimental
     constructor(config: UserConfig) {
         this.discordID = config.discordID;
         this.balance = config.balance >= 0 ? config.balance : 0;
+        this.experience = config.experience;
         this.lastCheckIn = config.lastCheckIn;
+        this.experience = config.experience;
 
         // there's always going to be a config.id once load is up
         this.id = config.id;
