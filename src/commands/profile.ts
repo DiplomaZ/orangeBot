@@ -8,7 +8,7 @@ module.exports = {
         const { username } = message.author;
         loadProfile(message, user => {
             const [level, experience, expToNextLevel] = user.level;
-            // ! refactor by moving function into helper folder or make a user method
+            // ! refactor by moving function into helper folder or make a user method or creating a progress bar class
             const createProgressBar = (
                 experience,
                 expToNextLevel,
