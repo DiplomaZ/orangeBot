@@ -1,11 +1,10 @@
 import { Message } from 'discord.js';
-import User from '../db/models/user';
 import { loadProfile } from './';
 
-export const addProfileExp = (message: Message) => {
+export const addProfileExp = (message: Message): void => {
+    if (message.author.bot) return; // stop execution if bot typed something
     loadProfile(message, user => {
         // we're here because a command wasn't entered + message from bot
-        if (message.author.bot) return; // stop execution if bot typed something
 
         const [oldLevel] = user.level;
 
