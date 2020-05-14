@@ -120,17 +120,20 @@ class User {
         );
     }
 
-    public update(): Promise<UserConfig> {
+    private update(): Promise<User> {
         /*
          * how to use:
          * user[property] = value // not really
          * user.update() // no returns as user has already been updated
          */
 
+        const { id, ...rest } = this;
+
         return User.database
-            .update({ ...this }, '*')
+            .where({ id })
+            .update({ ...rest }, ['*'])
             .then(results => {
-                return results[0];
+                return new User(results[0]);
             })
             .catch(e => {
                 throw e;
