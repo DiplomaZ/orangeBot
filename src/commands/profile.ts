@@ -1,10 +1,11 @@
 import { Message } from 'discord.js';
-import User, { UserConfig } from '../db/models/user';
+import { loadProfile } from '../util/';
 
 module.exports = {
     name: 'profile',
     description: '',
     execute(message: Message, arg): void {
+        const { username } = message.author;
         loadProfile(message, user => {
             const [level, experience, expToNextLevel] = user.level;
             // ! refactor by moving function into helper folder or make a user method
@@ -26,7 +27,19 @@ module.exports = {
                 return progressBar;
             };
             message.channel.send(
-                `Hello, ${username}, how are you today? Your account balance is ${user.balance}.`
+                [
+                    `Profile: ${username}`,
+                    `Balance: ${user.balance}`,
+                    `Level: ${level}`,
+                    `Progress: ${createProgressBar(
+                        experience,
+                        expToNextLevel
+                    )} ${expToNextLevel}`,
+                    `Experience: ${experience}`,
+                ].join('\n'),
+                {
+                    code: true,
+                }
             );
         });
     },
