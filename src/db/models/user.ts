@@ -105,6 +105,8 @@ class User {
         if (now.diff(last, 'h') >= 24) {
             this.balance += 200;
             this.lastCheckIn = Date.now().toString();
+            this.experience =
+                this.experience + Math.floor(Math.random()) * 100 + 100;
             this.update().then(() => {
                 return;
             });
