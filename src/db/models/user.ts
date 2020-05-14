@@ -8,6 +8,7 @@ export interface UserConfig {
     discordID: string;
     balance?: number;
     lastCheckIn: string | undefined;
+    experience: number;
 }
 
 interface DiscordID {
@@ -30,11 +31,13 @@ class User {
     discordID: string;
     balance: number;
     lastCheckIn: string | undefined;
+    experience: number;
     // oldState: UserStateHistory; experimental
     constructor(config: UserConfig) {
         this.discordID = config.discordID;
         this.balance = config.balance >= 0 ? config.balance : 0;
         this.lastCheckIn = config.lastCheckIn;
+        this.experience = config.experience;
 
         // there's always going to be a config.id once load is up
         this.id = config.id;
@@ -93,6 +96,34 @@ class User {
         return User.database.insert(user, ['discordID']);
     }
 
+    public get level(): number[] {
+        let level = 1;
+        let expToNextLevel = 500;
+        let totalExperienceLeft = this.experience;
+
+        while (totalExperienceLeft > expToNextLevel) {
+            // each iteration increase level
+            level = level + 1;
+
+            // subtract exp to exit loop
+            totalExperienceLeft =
+                totalExperienceLeft - Math.floor(expToNextLevel);
+
+            // increase required exp
+            // 10% of base each level
+            // after 10 levels, base + +2%
+            // after 25 levels, base + +3% going forward for total of 15.566%
+            expToNextLevel =
+                level <= 10
+                    ? expToNextLevel * 1.1
+                    : level > 10 && level <= 20
+                    ? expToNextLevel * 1.1 * 1.02
+                    : expToNextLevel * 1.1 * 1.02 * 1.03;
+        }
+
+        return [level, totalExperienceLeft, Math.floor(expToNextLevel)];
+    }
+
     public checkIn(): void {
         // get now
         const now = moment();
@@ -101,6 +132,8 @@ class User {
         if (now.diff(last, 'h') >= 24) {
             this.balance += 200;
             this.lastCheckIn = Date.now().toString();
+            this.experience =
+                this.experience + Math.floor(Math.random() * 100) + 100;
             this.update().then(() => {
                 return;
             });
@@ -114,17 +147,25 @@ class User {
         );
     }
 
-    public update(): Promise<UserConfig> {
+    public updateExperience(exp: number): Promise<User> {
+        this.experience = this.experience + exp;
+        return this.update().then(user => user);
+    }
+
+    private update(): Promise<User> {
         /*
          * how to use:
          * user[property] = value // not really
          * user.update() // no returns as user has already been updated
          */
 
+        const { id, ...rest } = this;
+
         return User.database
-            .update({ ...this }, '*')
+            .where({ id })
+            .update({ ...rest }, ['*'])
             .then(results => {
-                return results[0];
+                return new User(results[0]);
             })
             .catch(e => {
                 throw e;

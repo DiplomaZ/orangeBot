@@ -8,6 +8,7 @@ export async function up(knex: Knex): Promise<any> {
         table
             .string('lastCheckIn')
             .defaultTo((Date.now() - 1000 * 60 * 60 * 24).toString());
+        table.integer('experience').notNullable().defaultTo(0);
     });
 }
 

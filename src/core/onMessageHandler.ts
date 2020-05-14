@@ -1,9 +1,11 @@
 import { prefix } from '../../discord.config.json';
 import { Message, Client } from 'discord.js';
+import { addProfileExp } from '../util';
 
 const onMessageHandler = (client: Client) => (message: Message): void => {
     // if first letter isn't prefix -> ! ignore or if message from bot, ignore
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if (!message.content.startsWith(prefix) || message.author.bot)
+        addProfileExp(message);
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
