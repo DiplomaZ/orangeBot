@@ -12,9 +12,13 @@
     "license": "ISC",
     "dependencies": {
         "discord.js": "^11.5.1",
-        "dotenv": "^8.2.0"
+        "dotenv": "^8.2.0",
+        "knex": "^0.21.1",
+        "moment": "^2.25.3",
+        "pg": "^8.1.0"
     },
     "devDependencies": {
+        "@types/moment": "^2.13.0",
         "@types/node": "^13.13.5",
         "@typescript-eslint/eslint-plugin": "^2.31.0",
         "@typescript-eslint/parser": "^2.31.0",
