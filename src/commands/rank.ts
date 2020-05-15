@@ -20,6 +20,8 @@ module.exports = {
     description: '',
     execute(message: Message): void {
         const { username, id } = message.author;
+        User.find({ orderBy: [{ column: 'experience', order: 'desc' }] }).then(
+            users => {
         User.find().then(users => {
             console.log(users);
         });
