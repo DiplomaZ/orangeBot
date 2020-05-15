@@ -89,6 +89,22 @@ module.exports = {
                     ].join('|'),
                 ];
 
+                //  iterate over users
+                users.forEach(async (userObj, index) => {
+                    const user = new User(userObj);
+                    const textLine = [
+                        centerWords(rankLength, (index + 1).toString()),
+                        centerWords(
+                            userLength,
+                            message.guild.members.get(user.discordID).user
+                                .username
+                        ),
+                        centerWords(levelLength, user.level[0].toString()),
+                        centerWords(balanceLength, user.balance.toString()),
+                    ].join('|');
+
+                    formattedTextLines.push(textLine);
+                });
         });
     },
 };
