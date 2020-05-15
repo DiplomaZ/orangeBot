@@ -79,6 +79,16 @@ module.exports = {
                     ].join('');
                     return wordWithPadding;
                 };
+
+                const formattedTextLines = [
+                    [
+                        centerWords(rankLength, 'Rank'),
+                        centerWords(userLength, 'User'),
+                        centerWords(levelLength, 'Level'),
+                        centerWords(balanceLength, 'Balance'),
+                    ].join('|'),
+                ];
+
         });
     },
 };
