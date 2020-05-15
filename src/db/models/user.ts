@@ -42,6 +42,16 @@ class User {
     balance: number;
     lastCheckIn: string | undefined;
     experience: number;
+    statPoints: number;
+    stats: UserStats = {};
+    statTypes: string[] = [
+        'strength',
+        'agility',
+        'defense',
+        'magic',
+        'range',
+        'hitpoints',
+    ];
     // oldState: UserStateHistory; experimental
     constructor(config: UserConfig) {
         this.discordID = config.discordID;
