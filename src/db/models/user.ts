@@ -3,17 +3,27 @@ import Knex from 'knex';
 import { Message } from 'discord.js';
 import moment from 'moment';
 
-export interface UserConfig {
+export interface UserConfig extends UserStats {
     id?: number;
     discordID: string;
     balance?: number;
     lastCheckIn: string | undefined;
     experience: number;
+    statPoints: number;
 }
 
 interface DiscordID {
     type: 'discord-id';
     value: string;
+}
+
+interface UserStats {
+    strength?: number;
+    agility?: number;
+    defense?: number;
+    magic?: number;
+    range?: number;
+    hitpoints?: number;
 }
 
 /** 
