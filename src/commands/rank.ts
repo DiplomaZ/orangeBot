@@ -105,6 +105,11 @@ module.exports = {
 
                     formattedTextLines.push(textLine);
                 });
-        });
+
+                message.channel.send(formattedTextLines.join('\n'), {
+                    code: true,
+                });
+            }
+        );
     },
 };
