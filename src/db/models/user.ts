@@ -26,6 +26,13 @@ interface UserStats {
     hitpoints?: number;
 }
 
+interface KnexConfig {
+    orderBy: {
+        column: string;
+        order?: string;
+    }[];
+}
+
 /** 
  * Experimental
  * 
