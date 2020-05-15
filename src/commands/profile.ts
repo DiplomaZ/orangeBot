@@ -36,6 +36,7 @@ module.exports = {
                         expToNextLevel
                     )} ${expToNextLevel}`,
                     `Experience: ${experience}`,
+                    `Stat Points: ${user.statPoints}`,
                 ].join('\n'),
                 {
                     code: true,
