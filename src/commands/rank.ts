@@ -22,8 +22,15 @@ module.exports = {
         const { username, id } = message.author;
         User.find({ orderBy: [{ column: 'experience', order: 'desc' }] }).then(
             users => {
-        User.find().then(users => {
-            console.log(users);
+                /**
+                 * How do we want to display this
+                 *
+                 * What are the relavant data to display?
+                 * 1. @user | @level | @balance |
+                 * 2. @user | @level | @balance |
+                 * 3. @user | @level | @balance |
+                 * ... so forth
+                 */
         });
     },
 };
