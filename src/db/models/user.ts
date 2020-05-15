@@ -16,6 +16,13 @@ interface DiscordID {
     value: string;
 }
 
+interface KnexConfig {
+    orderBy: {
+        column: string;
+        order?: string;
+    }[];
+}
+
 /** 
  * Experimental
  * 
