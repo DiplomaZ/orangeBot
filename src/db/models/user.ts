@@ -96,7 +96,7 @@ class User {
 
     static find(): Promise<UserConfig[]> {
         // returns all users
-        return User.database;
+        return User.database.select('*');
     }
 
     static findByDiscord(
@@ -111,7 +111,7 @@ class User {
             return User.database.where({ discordID: value.value }).select('*');
         }
     }
-
+    //! Del: system32
     static findById(id: number): Promise<UserConfig> {
         return User.database.where({ id }).select('*');
     }
