@@ -46,6 +46,39 @@ module.exports = {
                     userLength = 20,
                     levelLength = 8,
                     balanceLength = 15;
+
+                const centerWords = (length: number, word: string): string => {
+                    const isOddPadding = (padding): boolean =>
+                        padding % 2 === 1;
+
+                    const totalPadding = length - word.length;
+
+                    let leftPadding: number | undefined,
+                        rightPadding: number | undefined;
+
+                    const padding = Math.floor(totalPadding / 2);
+                    if (isOddPadding(totalPadding)) {
+                        leftPadding = padding;
+                        rightPadding = padding + 1;
+                    }
+
+                    let wordWithPadding: string;
+
+                    if (leftPadding || rightPadding) {
+                        wordWithPadding = [
+                            ' '.repeat(leftPadding),
+                            word,
+                            ' '.repeat(rightPadding),
+                        ].join('');
+                        return wordWithPadding;
+                    }
+                    wordWithPadding = [
+                        ' '.repeat(padding),
+                        word,
+                        ' '.repeat(padding),
+                    ].join('');
+                    return wordWithPadding;
+                };
         });
     },
 };
