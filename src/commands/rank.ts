@@ -31,6 +31,16 @@ module.exports = {
                  * 3. @user | @level | @balance |
                  * ... so forth
                  */
+
+                // need to do a bit more math with string
+                /**
+                 * entire line should comprise 70 characters
+                 * 4 sections
+                 * 1. rank - len ~7 chars
+                 * 2. User - len ~ 36 chars
+                 * 3. level - len ~ 7 chars
+                 * 4. balance - len ~20 chars
+                 */
         });
     },
 };
