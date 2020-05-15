@@ -3,17 +3,27 @@ import Knex from 'knex';
 import { Message } from 'discord.js';
 import moment from 'moment';
 
-export interface UserConfig {
+export interface UserConfig extends UserStats {
     id?: number;
     discordID: string;
     balance?: number;
     lastCheckIn: string | undefined;
     experience: number;
+    statPoints: number;
 }
 
 interface DiscordID {
     type: 'discord-id';
     value: string;
+}
+
+interface UserStats {
+    strength?: number;
+    agility?: number;
+    defense?: number;
+    magic?: number;
+    range?: number;
+    hitpoints?: number;
 }
 
 /** 
@@ -32,15 +42,37 @@ class User {
     balance: number;
     lastCheckIn: string | undefined;
     experience: number;
+    statPoints: number;
+    stats: UserStats = {};
+    statTypes: string[] = [
+        'strength',
+        'agility',
+        'defense',
+        'magic',
+        'range',
+        'hitpoints',
+    ];
     // oldState: UserStateHistory; experimental
+    /**
+     * Figure out some where to discriminate stats
+     */
     constructor(config: UserConfig) {
-        this.discordID = config.discordID;
-        this.balance = config.balance >= 0 ? config.balance : 0;
-        this.lastCheckIn = config.lastCheckIn;
-        this.experience = config.experience;
-
-        // there's always going to be a config.id once load is up
-        this.id = config.id;
+        this.stats = {};
+        Object.keys(config).forEach(property => {
+            if (this.statTypes.includes(property)) {
+                try {
+                    // breaks
+                    this.stats = {
+                        ...this.stats,
+                        [property]: config[property],
+                    };
+                } catch (e) {
+                    console.log('assignment breaks', e.message);
+                }
+            } else {
+                this[property] = config[property];
+            }
+        });
     }
 
     public static async load(discordID: DiscordID): Promise<User> {
@@ -96,6 +128,41 @@ class User {
         return User.database.insert(user, ['discordID']);
     }
 
+    public get getStats(): number {
+        return this.statPoints;
+    }
+
+    public getUserStat(stat: string): number {
+        return this.stats[stat];
+    }
+
+    public addStats(stat: string, num: number): void {
+        /** addstats should receive stat to modify, and amount of points to add
+         * if insufficient points, return error with current points balance
+         * modify values and call update if balance is sufficient
+         *
+         */
+        if (num > this.statPoints) {
+            throw Error(
+                `You do not have enough stat points to do that! Your current points are ${this.statPoints}`
+            );
+        }
+        // console.log(this.stats);
+        if (Object.keys(this.stats).includes(stat)) {
+            this.stats[stat] += num;
+            this.statPoints -= num;
+            this.update().then(() => {
+                return;
+            });
+        } else {
+            throw Error(
+                `Please enter a valid stat. valid stats are: ${Object.keys(
+                    this.stats
+                ).join(', ')}`
+            );
+        }
+    }
+
     public get level(): number[] {
         let level = 1;
         let expToNextLevel = 500;
@@ -104,7 +171,7 @@ class User {
         while (totalExperienceLeft > expToNextLevel) {
             // each iteration increase level
             level = level + 1;
-
+            this.statPoints += 1;
             // subtract exp to exit loop
             totalExperienceLeft =
                 totalExperienceLeft - Math.floor(expToNextLevel);
@@ -159,11 +226,16 @@ class User {
          * user.update() // no returns as user has already been updated
          */
 
-        const { id, ...rest } = this;
+        const { id, ...otherProps } = this;
+        const { statTypes, stats, ...rest } = otherProps;
+        const updateObj = {
+            ...stats,
+            ...rest,
+        };
 
         return User.database
             .where({ id })
-            .update({ ...rest }, ['*'])
+            .update({ ...updateObj }, ['*'])
             .then(results => {
                 return new User(results[0]);
             })
