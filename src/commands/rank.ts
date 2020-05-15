@@ -41,6 +41,11 @@ module.exports = {
                  * 3. level - len ~ 7 chars
                  * 4. balance - len ~20 chars
                  */
+
+                const rankLength = 8,
+                    userLength = 20,
+                    levelLength = 8,
+                    balanceLength = 15;
         });
     },
 };
