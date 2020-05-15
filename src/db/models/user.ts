@@ -26,6 +26,13 @@ interface UserStats {
     hitpoints?: number;
 }
 
+interface KnexConfig {
+    orderBy: {
+        column: string;
+        order?: string;
+    }[];
+}
+
 /** 
  * Experimental
  * 
@@ -94,9 +101,14 @@ class User {
         return db('users');
     }
 
-    static find(): Promise<UserConfig[]> {
+    static find(config?: KnexConfig): Promise<UserConfig[]> {
         // returns all users
-        return User.database;
+        if (!config) return User.database.select('*');
+
+        if (config.orderBy) {
+            console.log(config.orderBy);
+            return User.database.orderBy(config.orderBy);
+        }
     }
 
     static findByDiscord(
