@@ -6,14 +6,14 @@ export const addProfileExp = (message: Message): void => {
     loadProfile(message, user => {
         // we're here because a command wasn't entered + message from bot
 
-        const [oldLevel] = user.level;
+        const { currentLevel: oldLevel } = user.level;
 
         // assign exp based on length of sentence - spaces
         const experience =
             message.content.replace(/\s/g, '').length +
             Math.floor(Math.random() * 50 + 1);
         user.updateExperience(experience).then(user => {
-            const [newLevel] = user.level;
+            const { currentLevel: newLevel } = user.level;
 
             if (newLevel > oldLevel) {
                 message.channel.send(
