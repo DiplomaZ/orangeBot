@@ -33,6 +33,12 @@ interface KnexConfig {
     }[];
 }
 
+interface Level {
+    currentLevel: number;
+    currentExp: number;
+    requiredExp: number;
+}
+
 /** 
  * Experimental
  * 
@@ -175,7 +181,7 @@ class User {
         }
     }
 
-    public get level(): number[] {
+    public get level(): Level {
         let level = 1;
         let expToNextLevel = 500;
         let totalExperienceLeft = this.experience;
@@ -200,7 +206,11 @@ class User {
                     : expToNextLevel * 1.1 * 1.02 * 1.03;
         }
 
-        return [level, totalExperienceLeft, Math.floor(expToNextLevel)];
+        return {
+            currentLevel: level,
+            currentExp: totalExperienceLeft,
+            requiredExp: Math.floor(expToNextLevel),
+        };
     }
 
     public checkIn(): void {

@@ -7,35 +7,16 @@ module.exports = {
     execute(message: Message, arg): void {
         const { username } = message.author;
         loadProfile(message, user => {
-            const [level, experience, expToNextLevel] = user.level;
-            // ! refactor by moving function into helper folder or make a user method or creating a progress bar class
-            const createProgressBar = (
-                experience,
-                expToNextLevel,
-                chunks = 30
-            ): string => {
-                const progressPercentage = experience / expToNextLevel;
-                const progressInChunks = Math.round(
-                    progressPercentage * chunks
-                );
-                const filledBar = '■';
-                const unfilledBar = '□';
-                const progressBar = filledBar
-                    .repeat(progressInChunks)
-                    .replace(/\s/g, '')
-                    .concat(unfilledBar.repeat(chunks - progressInChunks));
-                return progressBar;
-            };
+            const { currentLevel, ...rest } = user.level;
+
+            const { requiredExp, currentExp } = rest;
+
             message.channel.send(
                 [
                     `Profile: ${username}`,
                     `Balance: ${user.balance}`,
-                    `Level: ${level}`,
-                    `Progress: ${createProgressBar(
-                        experience,
-                        expToNextLevel
-                    )} ${expToNextLevel}`,
-                    `Experience: ${experience}`,
+                    `Level: ${currentLevel}`,
+                    `Experience: ${currentExp}`,
                     `Stat Points: ${user.statPoints}`,
                 ].join('\n'),
                 {
