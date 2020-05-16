@@ -99,7 +99,10 @@ module.exports = {
                             message.guild.members.get(user.discordID).user
                                 .username
                         ),
-                        centerWords(levelLength, user.level[0].toString()),
+                        centerWords(
+                            levelLength,
+                            user.level.currentLevel.toString()
+                        ),
                         centerWords(balanceLength, user.balance.toString()),
                     ].join('|');
 
