@@ -31,6 +31,7 @@ module.exports = {
             return;
         }
 
+        const data: string | Message = profile ? discordID : message;
             const { currentLevel, ...rest } = user.level;
             const progressBar = new ProgressBar({ ...rest, chunks: 50 });
 
