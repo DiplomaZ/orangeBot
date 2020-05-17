@@ -183,7 +183,7 @@ class User {
 
     public get level(): Level {
         let level = 1;
-        let expToNextLevel = 500;
+        let expToNextLevel = 200;
         let totalExperienceLeft = this.experience;
 
         while (totalExperienceLeft > expToNextLevel) {
