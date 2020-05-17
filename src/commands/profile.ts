@@ -6,8 +6,18 @@ module.exports = {
     name: 'profile',
     description: '',
     execute(message: Message, [profile]: string[]): void {
-        const { username } = message.author;
-        loadProfile(message, user => {
+        const mentionToken = '<@!';
+
+        if (
+            profile &&
+            !profile.startsWith(mentionToken) &&
+            !profile.endsWith('>')
+        ) {
+            message.channel.send(
+                'Unrecognized user. Try typing in `!profile @<username>`'
+            );
+            return;
+        }
             const { currentLevel, ...rest } = user.level;
             const progressBar = new ProgressBar({ ...rest, chunks: 50 });
 
