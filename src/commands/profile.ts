@@ -39,7 +39,9 @@ module.exports = {
 
             message.channel.send(
                 [
-                    `Profile: ${username}`,
+                    `Profile: ${
+                        message.guild.members.get(user.discordID).user.username
+                    }`,
                     `Balance: ${user.balance}`,
                     `Level: ${currentLevel}`,
                     `Progress: ${progressBar.toString()} ${requiredExp}`,
