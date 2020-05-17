@@ -33,6 +33,12 @@ interface KnexConfig {
     }[];
 }
 
+interface Level {
+    currentLevel: number;
+    currentExp: number;
+    requiredExp: number;
+}
+
 /** 
  * Experimental
  * 
@@ -175,9 +181,9 @@ class User {
         }
     }
 
-    public get level(): number[] {
+    public get level(): Level {
         let level = 1;
-        let expToNextLevel = 500;
+        let expToNextLevel = 200;
         let totalExperienceLeft = this.experience;
 
         while (totalExperienceLeft > expToNextLevel) {
@@ -200,7 +206,11 @@ class User {
                     : expToNextLevel * 1.1 * 1.02 * 1.03;
         }
 
-        return [level, totalExperienceLeft, Math.floor(expToNextLevel)];
+        return {
+            currentLevel: level,
+            currentExp: totalExperienceLeft,
+            requiredExp: Math.floor(expToNextLevel),
+        };
     }
 
     public checkIn(): void {
@@ -219,10 +229,12 @@ class User {
             return;
         }
 
+        const nounToDisplay =
+            now.day() === last.add(24, 'h').day() ? 'today' : 'tomorrow';
         throw Error(
-            `Unable to check in at this time. Please try again at ${last
+            `Unable to check in at this time. Please try again ${nounToDisplay} at ${last
                 .add(24, 'h')
-                .format('HH:mm on MMM Do')}`
+                .format(`HH:mm`)}.`
         );
     }
 
