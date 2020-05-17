@@ -5,7 +5,7 @@ import ProgressBar from '../db/models/progressBar';
 module.exports = {
     name: 'profile',
     description: '',
-    execute(message: Message, arg: string[]): void {
+    execute(message: Message, [profile]: string[]): void {
         const { username } = message.author;
         loadProfile(message, user => {
             const { currentLevel, ...rest } = user.level;
