@@ -18,6 +18,19 @@ module.exports = {
             );
             return;
         }
+
+        const discordID =
+            typeof profile === 'string'
+                ? profile.replace(mentionToken, '').replace('>', '')
+                : '';
+
+        if (discordID && message.guild.members.get(discordID).user.bot) {
+            message.channel.send(
+                "You cannot pull up a bot's profile because it does not exist"
+            );
+            return;
+        }
+
             const { currentLevel, ...rest } = user.level;
             const progressBar = new ProgressBar({ ...rest, chunks: 50 });
 
