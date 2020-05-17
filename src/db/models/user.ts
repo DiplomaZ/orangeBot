@@ -229,10 +229,12 @@ class User {
             return;
         }
 
+        const nounToDisplay =
+            now.day() === last.add(24, 'h').day() ? 'today' : 'tomorrow';
         throw Error(
-            `Unable to check in at this time. Please try again at ${last
+            `Unable to check in at this time. Please try again ${nounToDisplay} at ${last
                 .add(24, 'h')
-                .format('HH:mm on MMM Do')}`
+                .format(`HH:mm`)}.`
         );
     }
 
