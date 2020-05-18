@@ -3,6 +3,9 @@ import { Message } from 'discord.js';
 
 type UserCallBack = (user: User) => void;
 
-export const loadProfile = ({ author }: Message, cb: UserCallBack): void => {
-    User.load({ type: 'discord-id', value: author.id }).then(cb);
+export const loadProfile = (data: Message | string, cb: UserCallBack): void => {
+    User.load({
+        type: 'discord-id',
+        value: data instanceof Message ? data.author.id : data,
+    }).then(cb);
 };
