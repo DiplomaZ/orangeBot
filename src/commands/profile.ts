@@ -37,6 +37,12 @@ module.exports = {
                     )} ${expToNextLevel}`,
                     `Experience: ${experience}`,
                     `Stat Points: ${user.statPoints}`,
+                    `strength: ${user.getUserStat('strength')}`,
+                    `agility: ${user.getUserStat('agility')}`,
+                    `defense: ${user.getUserStat('defense')}`,
+                    `magic: ${user.getUserStat('magic')}`,
+                    `range: ${user.getUserStat('range')}`,
+                    `hitpoints: ${user.getUserStat('hitpoints')}`,
                 ].join('\n'),
                 {
                     code: true,
